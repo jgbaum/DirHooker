@@ -1,0 +1,33 @@
+
+# This config file is used to generate the runtime config file and the
+# docker run command line.  If the app will not be run inside a container,
+# this config file can be used as the runtime config.
+
+# directories to be watched
+# name: this can be anything, but it must be unique
+# path: the path to the directory, from the perspective of the app on the host
+#       to generate a config file with the paths updated to the perspective
+#       of the container, use the --generate-docker-command option
+# webhook_url: the URL to hit when the directory changes
+# watched_actions: the actions to watch for (e.g., CREATE, MODIFY, DELETE). Default = 'CREATE'
+
+directories:
+  - name: Cam90
+    path: /home/jgbaum/camFTP/Cam90/FoscamCamera_E8ABFAA77089/snap
+    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/69/7afce62f2e7565b4/turnOn
+    watched_actions: 
+     - CREATE
+  - name: Cam91
+    path: /home/jgbaum/camFTP/Cam91/FI9831P_00626E6092D0/snap
+    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/74/4c9d2fe3bbd65e70/turnOn
+    watched_actions:
+      - CREATE
+  - name: Cam92
+    path: /home/jgbaum/camFTP/Cam92/FI9831P_00626E6093FA/snap
+    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/75/48b9bb7aebfd8242/turnOn
+    watched_actions:
+  - name: Cam93
+    path: /home/jgbaum/camFTP/Cam93/FI9831P_00626E6092B7/snap
+    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/76/30a48a53425a5240/turnOn
+    watched_actions:
+      - CREATE

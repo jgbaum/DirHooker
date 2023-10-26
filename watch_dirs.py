@@ -2,6 +2,7 @@ import logging
 import threading
 import time
 import subprocess
+import yaml
 
 # catalog of dirs to watch & hook to call
 watched_dirs = [
