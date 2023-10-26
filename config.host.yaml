@@ -13,21 +13,25 @@
 
 directories:
   - name: Cam90
-    path: /home/jgbaum/camFTP/Cam90/FoscamCamera_E8ABFAA77089/snap
+    #path: /home/jgbaum/camFTP/Cam90/FoscamCamera_E8ABFAA77089/snap
+    path: /Users/jgbaum/projects/watch-dirs/testc/cam90
     webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/69/7afce62f2e7565b4/turnOn
     watched_actions: 
      - CREATE
   - name: Cam91
-    path: /home/jgbaum/camFTP/Cam91/FI9831P_00626E6092D0/snap
+    #path: /home/jgbaum/camFTP/Cam91/FI9831P_00626E6092D0/snap
+    path: /Users/jgbaum/projects/watch-dirs/testc/cam91
     webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/74/4c9d2fe3bbd65e70/turnOn
     watched_actions:
       - CREATE
   - name: Cam92
-    path: /home/jgbaum/camFTP/Cam92/FI9831P_00626E6093FA/snap
+    #path: /home/jgbaum/camFTP/Cam92/FI9831P_00626E6093FA/snap
+    path: /Users/jgbaum/projects/watch-dirs/testc/cam92
     webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/75/48b9bb7aebfd8242/turnOn
     watched_actions:
   - name: Cam93
-    path: /home/jgbaum/camFTP/Cam93/FI9831P_00626E6092B7/snap
+    #path: /home/jgbaum/camFTP/Cam93/FI9831P_00626E6092B7/snap
+    path: /Users/jgbaum/projects/watch-dirs/testc/cam93
     webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/76/30a48a53425a5240/turnOn
     watched_actions:
       - CREATE

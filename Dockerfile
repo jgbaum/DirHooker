@@ -4,8 +4,14 @@ RUN apt -y update
 
 RUN apt -y install curl inotify-tools
 
-RUN pip install -r requirements.txt
-
 WORKDIR /app
 
+# copy requirements.txt first so we can do a pip install
+# this helps make builds quicker
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
 COPY . .
+
+CMD python watch_dirs.py --runtime-config /config.yaml
