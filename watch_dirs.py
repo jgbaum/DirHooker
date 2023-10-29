@@ -35,27 +35,17 @@ parser.add_argument('--image-name',
 args = parser.parse_args()
 
 def generate_docker_command(template_config_file, runtime_config_file):
-    """Using the template config file, generate the runtime config file
-    and docker run command"""
+    """Using the template config file, generate the docker run command"""
 
     # read in the yaml config file
     with open(template_config_file, 'r') as file:
          config = yaml.safe_load(file)
          
-    # for each directory, we map it to /ftp/{name}
-    run_config = deepcopy(config)
-    
     # record the volumes to be mapped
     volume_maps = list()
     
-    for d in run_config['directories']:
-        container_path = f"/ftp/{d['name']}"
-        volume_maps.append(f"{d['path']}:{container_path}")
-        d['path'] = container_path
-        
-    # output the run config file
-    with open(runtime_config_file, 'w') as file:
-        yaml.dump(run_config, file)
+    for d in config['directories']:
+        volume_maps.append(f"{d['path']}:{d['path']}")
     
     # create the docker run command as a list
     # we'll join these together later
@@ -82,30 +72,38 @@ def generate_docker_command(template_config_file, runtime_config_file):
     # join into a string
     docker_cmd = " \\\n".join(docker_run_cmds)
     
-    print(docker_cmd)
-    
-    # now create the output config file
-  
+    print(docker_cmd)  
   
     
 def watch_dir(dir_info):
     
-    watch_cmd = f'inotifywait -e create {dir_info["path"]};'
+    # default to watching CREATE actions, but this can be overridden
+    # by adding a list of 'watched_actions' item to the dir info
+    watched_actions = ['CREATE']
+    
+    if 'watched_actions' in dir_info:
+        watched_actions = dir_info['watched_actions']
+    
+    events_string = ','.join(watched_actions)
+    watch_cmd = f'inotifywait -e {events_string} {dir_info["path"]};'
     webhook_url = dir_info['webhook_url']
     curl_cmd = f"curl '{webhook_url}'"
+    
+    logging.info(f"Thread {dir_info['name']}: watch command: {watch_cmd}")
+    logging.info(f"Thread {dir_info['name']}: curl command: {curl_cmd}")
     
     # loop infinitely until the process quits
     while True:
     
-        logging.info("Thread %s: starting", dir_info['name'])
+        logging.info(f"Thread {dir_info['name']}: starting")
         watch_result = subprocess.run(watch_cmd, stdout=subprocess.PIPE, shell=True)
-        print(f"{dir_info['name']} watch response: " + watch_result.stdout.decode())
+        loggin.info(f"Thread {dir_info['name']}: watch response: " + watch_result.stdout.decode())
         
         # If we pass ctrl-c, sometimes this block executes, so we need to first
         # check that CREATE exists in the watch result
         if 'CREATE' in watch_result.stdout.decode():
             curl_result = subprocess.run(curl_cmd, stdout=subprocess.PIPE, shell=True)
-            print(f"{dir_info['name']} curl response: " + curl_result.stdout.decode())
+            loggin.info(f"Thread {dir_info['name']} curl response: " + curl_result.stdout.decode())
         
         time.sleep(30)
         
@@ -128,10 +126,7 @@ if __name__ == "__main__":
         logging.basicConfig(format=format, level=logging.INFO,
                             datefmt="%H:%M:%S")
 
-        logging.info("Main    : before creating thread")
         for d in config['directories']:
             x = threading.Thread(target=watch_dir, args=(d,))
             x.start()
-        
-        logging.info("Main    : wait for the threads to finish")
-        logging.info("Main    : all done")
+

@@ -29,9 +29,11 @@ directories:
     path: /Users/jgbaum/projects/watch-dirs/testc/cam92
     webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/75/48b9bb7aebfd8242/turnOn
     watched_actions:
+      - CREATE
   - name: Cam93
     #path: /home/jgbaum/camFTP/Cam93/FI9831P_00626E6092B7/snap
     path: /Users/jgbaum/projects/watch-dirs/testc/cam93
     webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/76/30a48a53425a5240/turnOn
     watched_actions:
       - CREATE
+      - MODIFY
