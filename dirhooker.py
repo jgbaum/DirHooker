@@ -31,13 +31,9 @@ parser.add_argument('--generate-docker-command',
     action='store_true',
     default=False,
     required=False)
-parser.add_argument('--template-config',
-    help='Path to the config file to be used to generate the runtime config',
+parser.add_argument('--config',
+    help='Path to the config file',
     required=False)
-parser.add_argument('--runtime-config',
-    help='Path to the runtime config file',
-    required=False,
-    default='config.runtime.yaml')
 parser.add_argument('--image-name',
     help='The name of the image to run',
     required=False,
@@ -46,11 +42,11 @@ parser.add_argument('--image-name',
 
 args = parser.parse_args()
 
-def generate_docker_command(template_config_file, runtime_config_file):
+def generate_docker_command(config_file):
     """Using the template config file, generate the docker run command"""
 
     # read in the yaml config file
-    with open(template_config_file, 'r') as file:
+    with open(config_file, 'r') as file:
          config = yaml.safe_load(file)
          
     # record the volumes to be mapped
@@ -73,7 +69,7 @@ def generate_docker_command(template_config_file, runtime_config_file):
         docker_run_cmds.append(f"-v {v}")
     
     # mount the config file
-    runtime_config_full_path = os.path.abspath(runtime_config_file)
+    runtime_config_full_path = os.path.abspath(config_file)
     
     docker_run_cmds.append(f"-v {runtime_config_full_path}:/config.yaml")
     
@@ -108,29 +104,28 @@ def watch_dir(dir_info):
     
         logging.info(f"Thread {dir_info['name']}: starting")
         watch_result = subprocess.run(watch_cmd, stdout=subprocess.PIPE, shell=True)
-        loggin.info(f"Thread {dir_info['name']}: watch response: " + watch_result.stdout.decode())
+        logging.info(f"Thread {dir_info['name']}: watch response: " + watch_result.stdout.decode())
         
         # If we pass ctrl-c, sometimes this block executes, so we need to first
         # check that CREATE exists in the watch result
         if 'CREATE' in watch_result.stdout.decode():
             curl_result = subprocess.run(curl_cmd, stdout=subprocess.PIPE, shell=True)
-            loggin.info(f"Thread {dir_info['name']} curl response: " + curl_result.stdout.decode())
+            logging.info(f"Thread {dir_info['name']} curl response: " + curl_result.stdout.decode())
         
         time.sleep(30)
         
         
 if __name__ == "__main__":
     
-    template_config = args.template_config
-    runtime_config = args.runtime_config
+    config_file = args.config
     gen_config = args.generate_docker_command
 
     if gen_config:
-        generate_docker_command(template_config, runtime_config)
+        generate_docker_command(config_file)
     else:
     
         # read in the yaml config file
-        with open(runtime_config, 'r') as file:
+        with open(config_file, 'r') as file:
             config = yaml.safe_load(file)
              
         format = "%(asctime)s: %(message)s"

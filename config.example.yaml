@@ -8,32 +8,30 @@
 # path: the path to the directory, from the perspective of the app on the host
 #       to generate a config file with the paths updated to the perspective
 #       of the container, use the --generate-docker-command option
-# webhook_url: the URL to hit when the directory changes
-# watched_actions: the actions to watch for (e.g., CREATE, MODIFY, DELETE). Default = 'CREATE'
+# webhook_url: the URL to hit when the directory changes.  In this example, I'm using
+#              webhooks created by the Scrypted webhook plugin
+# watched_actions: the actions to watch for (e.g., CREATE, MODIFY, DELETE). If this
+#                  section is missing, the default is 'CREATE'
 
 directories:
   - name: Cam90
-    #path: /home/jgbaum/camFTP/Cam90/FoscamCamera_E8ABFAA77089/snap
-    path: /Users/jgbaum/projects/watch-dirs/testc/cam90
-    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/69/7afce62f2e7565b4/turnOn
+    path: /Users/jgbaum/projects/dirhooker/testc/cam90
+    webhook_url: http://192.168.1.129:11080/endpoint/@scrypted/webhook/public/76/7agce62f2g7555b3/turnOn
     watched_actions: 
      - CREATE
   - name: Cam91
-    #path: /home/jgbaum/camFTP/Cam91/FI9831P_00626E6092D0/snap
-    path: /Users/jgbaum/projects/watch-dirs/testc/cam91
-    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/74/4c9d2fe3bbd65e70/turnOn
+    path: /Users/jgbaum/projects/dirhooker/testc/cam91
+    webhook_url: http://192.168.1.129:11080/endpoint/@scrypted/webhook/public/65/7c9dgfe3bnd65e56/turnOn
     watched_actions:
       - CREATE
   - name: Cam92
-    #path: /home/jgbaum/camFTP/Cam92/FI9831P_00626E6093FA/snap
-    path: /Users/jgbaum/projects/watch-dirs/testc/cam92
-    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/75/48b9bb7aebfd8242/turnOn
+    path: /Users/jgbaum/projects/dirhooker/testc/cam92
+    webhook_url: http://192.168.15.129:11080/endpoint/@scrypted/webhook/public/55/68b9hb7afbfd6243/turnOn
     watched_actions:
       - CREATE
   - name: Cam93
-    #path: /home/jgbaum/camFTP/Cam93/FI9831P_00626E6092B7/snap
-    path: /Users/jgbaum/projects/watch-dirs/testc/cam93
-    webhook_url: http://192.168.15.80:11080/endpoint/@scrypted/webhook/public/76/30a48a53425a5240/turnOn
+    path: /Users/jgbaum/projects/dirhooker/testc/cam93
+    webhook_url: http://192.168.15.129:11080/endpoint/@scrypted/webhook/public/53/70a48h53425n5231/turnOn
     watched_actions:
       - CREATE
       - MODIFY
