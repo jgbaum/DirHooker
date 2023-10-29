@@ -1,3 +1,19 @@
+    # DirHooker - Send webhook request on directory change
+    # Copyright (C) 2023 Jason Greenbaum (https://github.com/jgbaum)
+
+    # This program is free software: you can redistribute it and/or modify
+    # it under the terms of the GNU Affero General Public License as published
+    # by the Free Software Foundation, either version 3 of the License, or
+    # (at your option) any later version.
+
+    # This program is distributed in the hope that it will be useful,
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    # GNU Affero General Public License for more details.
+
+    # You should have received a copy of the GNU Affero General Public License
+    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import logging
 import threading
 import time
@@ -22,14 +38,10 @@ parser.add_argument('--runtime-config',
     help='Path to the runtime config file',
     required=False,
     default='config.runtime.yaml')
-parser.add_argument('--container-name',
-    help='A name for the container',
-    required=False,
-    default='dirwatcher')
 parser.add_argument('--image-name',
     help='The name of the image to run',
     required=False,
-    default='dirwatcher:latest')
+    default='dirhooker:latest')
 
 
 args = parser.parse_args()
@@ -52,9 +64,8 @@ def generate_docker_command(template_config_file, runtime_config_file):
     docker_run_cmds = list()
     docker_run_cmds.append('docker run -d')
     
-    # if we were given a name, add it here
-    docker_run_cmds.append(f"--name {args.container_name}")
-    
+    # add the name and restart condition
+    docker_run_cmds.append("--name dirhooker")
     docker_run_cmds.append("--restart on-failure")
     
     # now add the volume mounts
