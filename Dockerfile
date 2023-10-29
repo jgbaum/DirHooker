@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD python watch_dirs.py --runtime-config /config.yaml
+CMD python dirhooker.py --config /config.yaml
