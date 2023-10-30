@@ -24,14 +24,10 @@ you started.
 
 ## Docker usage (recommended)
 
-To use the docker image:
+To use the docker image published to ghrc.io:
 
-1. Build the container image:
-```
-docker build . -t dirhooker:latest
-```
-2. Edit the [example config file](config.example.yaml) to your liking.
-3. Use the ```--generate-docker-command``` flag to obtain the docker command to launch the app, e.g.:
+1. Edit the [example config file](config.example.yaml) to your liking.
+2. Use the ```--generate-docker-command``` flag to obtain the docker command to launch the app, e.g.:
 ```
 % python dirhooker.py --generate-docker-command --config=config.example.yaml
 docker run -d \
@@ -42,10 +38,17 @@ docker run -d \
 -v /Users/jgbaum/projects/dirhooker/testc/cam92:/Users/jgbaum/projects/dirhooker/testc/cam92 \
 -v /Users/jgbaum/projects/dirhooker/testc/cam93:/Users/jgbaum/projects/dirhooker/testc/cam93 \
 -v /Users/jgbaum/projects/dirhooker/config.example.yaml:/config.yaml \
-dirhooker:latest
+ghcr.io/jgbaum/dirhooker:latest
 ```
 3. Copy and paste the docker command into the terminal and hit 'enter'.
 
+### Alternatively, build the image locally:
+
+Instead of using the image published at ghrc.io, you may build the image from source locally with, e.g.:
+
+```
+docker build . -t dirhooker:latest
+```
 
 ## Installation / Usage without Docker
 

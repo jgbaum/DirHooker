@@ -37,7 +37,7 @@ parser.add_argument('--config',
 parser.add_argument('--image-name',
     help='The name of the image to run',
     required=False,
-    default='dirhooker:latest')
+    default='ghcr.io/jgbaum/dirhooker:latest')
 
 
 args = parser.parse_args()
